@@ -1,0 +1,11 @@
+{
+    "services": [
+        {
+            "org": "$HZN_ORG_ID",
+            "url": "$SERVICE_NAME",
+            "variables": {
+                "MY_TIME_ZONE": "$MY_TIME_ZONE"
+            }
+        }
+    ]
+}

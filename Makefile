@@ -1,0 +1,101 @@
+# Multi-arch docker container instance of the open-source home assistant project intended for Open Horizon Linux edge nodes
+
+export DOCKER_IMAGE_BASE ?= "ghcr.io/home-assistant/home-assistant"
+export DOCKER_IMAGE_NAME ?= "homeassistant"
+export DOCKER_IMAGE_VERSION ?= "latest"
+export DOCKER_VOLUME_NAME ?= "homeassistant_config"
+
+# DockerHub ID of the third party providing the image (usually yours if building and pushing)
+export DOCKERHUB_ID ?= "homeassistant"
+
+# The Open Horizon organization ID namespace where you will be publishing the service definition file
+export HZN_ORG_ID ?= "examples"
+
+# Variables required by Home Assistant, can be overridden by your environment variables
+export MY_TIME_ZONE ?= "America/New_York"
+
+# Open Horizon settings for publishing metadata about the service
+export PATTERN_NAME ?= "pattern-homeassistant"
+export DEPLOYMENT_POLICY_NAME ?= "deployment-policy-homeassistant"
+export NODE_POLICY_NAME ?= "node-policy-homeassistant"
+export SERVICE_NAME ?= "service-homeassistant"
+export SERVICE_VERSION ?= "0.0.1"
+
+# Default ARCH to the architecture of this machine (assumes hzn CLI installed)
+export ARCH ?= $(shell hzn architecture)
+
+# Detect Operating System running Make
+OS := $(shell uname -s)
+
+default: init run browse
+
+stop:
+	@docker rm -f $(DOCKER_IMAGE_NAME) >/dev/null 2>&1 || :
+
+init:
+	@docker volume create $(DOCKER_VOLUME_NAME)
+
+run: stop
+	docker run -d \
+		--name $(DOCKER_IMAGE_NAME) \
+		--privileged \
+		--restart=unless-stopped \
+		-e TZ=$(MY_TIME_ZONE) \
+		-v $(DOCKER_VOLUME_NAME):/config \
+		-p 8123:8123 \
+		$(DOCKER_IMAGE_BASE):$(DOCKER_IMAGE_VERSION)
+
+dev: run attach
+
+attach: 
+	docker exec -it \
+		`docker ps -aqf "name=$(DOCKER_IMAGE_NAME)"` \
+		/bin/bash		
+
+test:
+	@curl -sS http://127.0.0.1:8123
+
+browse:
+ifeq ($(OS),Darwin)
+	@open http://127.0.0.1:8123
+else
+	@xdg-open http://127.0.0.1:8123
+endif
+
+clean: stop
+	@docker rmi -f $(DOCKER_IMAGE_BASE):$(DOCKER_IMAGE_VERSION) >/dev/null 2>&1 || :
+	@docker volume rm $(DOCKER_VOLUME_NAME)
+
+distclean: clean
+	@echo "TBD: unpublish files, unregister node"
+
+build:
+	@echo "There is no Docker image build process since this container is provided by a third-party from official sources."
+
+push:
+	@echo "There is no Docker image push process since this container is provided by a third-party from official sources."
+
+publish:
+	ARCH=amd64 $(MAKE) publish-service
+	ARCH=arm $(MAKE) publish-service
+	ARCH=arm64 $(MAKE) publish-service
+	$(MAKE) publish-deployment-policy
+	$(MAKE) agent-run
+
+# Pull, not push, Docker image since provided by third party
+publish-service:
+	hzn exchange service publish -O -P -f service.definition.json
+
+publish-deployment-policy:
+	hzn exchange deployment addpolicy -f deployment.policy.json $(HZN_ORG_ID)/policy-$(SERVICE_NAME)_$(SERVICE_VERSION)
+
+agent-run: agent-stop
+	hzn register -f userinput.json -o $(HZN_ORG_ID) --policy=node.policy.json -s $(SERVICE_NAME) -t 240
+
+agent-stop:
+	hzn unregister -f
+
+deploy-check:
+	hzn deploycheck all -B deployment.policy.json --service=service.definition.json --node-pol=node.policy.json
+
+.PHONY: default stop init run dev test clean build push attach browse publish publish-service publish-deployment-policy publish-pattern agent-run distclean deploy-check

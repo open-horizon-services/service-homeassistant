@@ -1,0 +1,25 @@
+{
+    "org": "$HZN_ORG_ID",
+    "label": "$SERVICE_NAME for $ARCH",
+    "url": "$SERVICE_NAME",
+    "version": "$SERVICE_VERSION",
+    "arch": "$ARCH",
+    "public": true,
+    "sharable": "singleton",
+    "requiredServices": [],
+    "userInput": [
+      {
+        "name": "MY_TIME_ZONE",
+        "label": "User time zone",
+        "type": "string",
+        "defaultValue": "America/New_York"
+      }
+    ],
+    "deployment": {
+      "services": {
+        "$SERVICE_NAME": {
+          "image": "$DOCKER_IMAGE_BASE:$DOCKER_IMAGE_VERSION"
+        }
+      }
+    }
+}
