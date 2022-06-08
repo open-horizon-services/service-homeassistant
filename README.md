@@ -1,10 +1,10 @@
 # service-homeassistant
 
-This is an Open Horizon set of configuration to deploy a vanilla instance of the open-source [Home Assistant](https://www.home-assistant.io/getting-started) software.  The Home Assistant UI is designed to run in a web browser, so you will need to navigate to http://localhost:8123/ to use the software once it has been deployed.
+This is an Open Horizon configuration to deploy a vanilla instance of the open-source [Home Assistant](https://www.home-assistant.io/getting-started) software.  The Home Assistant UI is designed to run in a web browser, so you will need to navigate to http://localhost:8123/ to use the software once it has been deployed.
 
 ## Prerequisites
 
-**Management Hub:** Additionally, you will need to [install the Open Horizon Management Hub](https://open-horizon.github.io/quick-start) or have access to an existing hub in order to publish this service and register your edge node.  You may also choose to use a downstream commercial distribution based on Open Horizon, such as IBM's Edge Application Manager.  If you'd like to use the Open Horizon community hub, you may [apply for a temporary account](https://wiki.lfedge.org/display/LE/Open+Horizon+Management+Hub+Developer+Instance) and have credentials sent to you.
+**Management Hub:** [Install the Open Horizon Management Hub](https://open-horizon.github.io/quick-start) or have access to an existing hub in order to publish this service and register your edge node.  You may also choose to use a downstream commercial distribution based on Open Horizon, such as IBM's Edge Application Manager.  If you'd like to use the Open Horizon community hub, you may [apply for a temporary account](https://wiki.lfedge.org/display/LE/Open+Horizon+Management+Hub+Developer+Instance) and have credentials sent to you.
 
 **Edge Node:** You will need an x86 computer running Linux or macOS, or a Raspberry Pi computer (arm64) running Raspberry Pi OS or Ubuntu to install and use Home Assistant deployed by Open Horizon.  You will need to install the Open Horizon agent software, anax, on the edge node and register it with a hub.
 
@@ -24,7 +24,7 @@ Run `make clean` to confirm that the "make" utility is installed and working.
 Confirm that you have the Open Horizon agent installed by using the CLI to check the version:
 
   ``` bash
-  hzn verion
+  hzn version
   ```
 
   It should return values for both the CLI and the Agent (actual version numbers may vary from those shown):
@@ -42,7 +42,7 @@ Check that the agent is in an unconfigured state, and that it can communicate wi
 
 ## Usage
 
-To manually run Home Assistant locally as a test, enter `make`.  This will open a browser window, but it may do so before Home Assistant is completely ready.  If you get a blank web page, wait about 10 seconds or so and reload the page.  When you are done, run `make stop` to end the test.  Running `make attach` will connect you to a prompt running inside the container, and you can exit from that session by entering `exit`.
+To manually run Home Assistant locally as a test, enter `make`.  This will open a browser window, but it may do so before Home Assistant is completely ready.  If you get a blank web page, wait about 10 seconds or so and reload the page.  When you are done, run `make stop` in the terminal to end the test.  Running `make attach` will connect you to a prompt running inside the container, and you can end that session by entering `exit`.
 
 To create the service definition, publish it to the hub, and then form an agreement to download and run Home Assistant, enter `make publish`.  When installation is complete, you may open a browser pointing to Home Assistant by entering `make browse` or visiting [http://localhost:8123/](http://localhost:8123/) in a web browser.
 
