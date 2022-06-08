@@ -1,10 +1,12 @@
 {
     "services": [
         {
-            "org": "$HZN_ORG_ID",
-            "url": "$SERVICE_NAME",
+            "org": "examples",
+            "url": "service-homeassistant",
+            "version": "0.0.1",
+            "arch": "amd64",
             "variables": {
-                "MY_TIME_ZONE": "$MY_TIME_ZONE"
+                "MY_TIME_ZONE": "America/New_York"
             }
         }
     ]

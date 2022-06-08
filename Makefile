@@ -15,19 +15,41 @@ export HZN_ORG_ID ?= "examples"
 export MY_TIME_ZONE ?= "America/New_York"
 
 # Open Horizon settings for publishing metadata about the service
-export PATTERN_NAME ?= "pattern-homeassistant"
 export DEPLOYMENT_POLICY_NAME ?= "deployment-policy-homeassistant"
 export NODE_POLICY_NAME ?= "node-policy-homeassistant"
 export SERVICE_NAME ?= "service-homeassistant"
 export SERVICE_VERSION ?= "0.0.1"
 
 # Default ARCH to the architecture of this machine (assumes hzn CLI installed)
-export ARCH ?= $(shell hzn architecture)
+export ARCH ?= "amd64"
 
 # Detect Operating System running Make
 OS := $(shell uname -s)
 
 default: init run browse
+
+check:
+	@echo "ENVIRONMENT VARIABLES"
+	@echo "====================="
+	@echo "DOCKER_IMAGE_BASE default: ghcr.io/home-assistant/home-assistant actual: ${DOCKER_IMAGE_BASE}"
+	@echo "DOCKER_IMAGE_NAME default: homeassistant actual: ${DOCKER_IMAGE_NAME}"
+	@echo "DOCKER_IMAGE_VERSION default: latest actual: ${DOCKER_IMAGE_VERSION}"
+	@echo "DOCKER_VOLUME_NAME default: homeassistant_config actual: ${DOCKER_VOLUME_NAME}"
+	@echo "DOCKERHUB_ID default: homeassistant actual: ${DOCKERHUB_ID}"
+	@echo "HZN_ORG_ID default: examples actual: ${HZN_ORG_ID}"
+	@echo "MY_TIME_ZONE default: America/New_York actual: ${MY_TIME_ZONE}"
+	@echo "DEPLOYMENT_POLICY_NAME default: deployment-policy-homeassistant actual: ${DEPLOYMENT_POLICY_NAME}"
+	@echo "NODE_POLICY_NAME default: node-policy-homeassistant actual: ${NODE_POLICY_NAME}"
+	@echo "SERVICE_NAME default: service-homeassistant actual: ${SERVICE_NAME}"
+	@echo "SERVICE_VERSION default: 0.0.1 actual: ${SERVICE_VERSION}"
+	@echo "ARCH default: amd64 actual ${ARCH}"
+	@echo "====================="
+	@echo ""
+	@echo "SERVICE DEFINITION"
+	@echo "=================="
+	@cat service.definition.json | envsubst
+	@echo "=================="
+	@echo ""
 
 stop:
 	@docker rm -f $(DOCKER_IMAGE_NAME) >/dev/null 2>&1 || :
@@ -75,27 +97,26 @@ build:
 push:
 	@echo "There is no Docker image push process since this container is provided by a third-party from official sources."
 
-publish:
-	ARCH=amd64 $(MAKE) publish-service
-	ARCH=arm $(MAKE) publish-service
-	ARCH=arm64 $(MAKE) publish-service
-	$(MAKE) publish-deployment-policy
-	$(MAKE) agent-run
+publish: publish-service publish-deployment-policy agent-run
 
 # Pull, not push, Docker image since provided by third party
 publish-service:
-	hzn exchange service publish -O -P -f service.definition.json
+	hzn exchange service publish -O -P --json-file=service.definition.json
 
 publish-deployment-policy:
 	hzn exchange deployment addpolicy -f deployment.policy.json $(HZN_ORG_ID)/policy-$(SERVICE_NAME)_$(SERVICE_VERSION)
 
-agent-run: agent-stop
-	hzn register -f userinput.json -o $(HZN_ORG_ID) --policy=node.policy.json -s $(SERVICE_NAME) -t 240
+agent-run:
+#	hzn register -f userinput.json -o $(HZN_ORG_ID) --policy=node.policy.json -s $(SERVICE_NAME) -t 240
+	hzn register -f userinput.json -o $(HZN_ORG_ID) --policy=node.policy.json
 
 agent-stop:
 	hzn unregister -f
 
 deploy-check:
-	hzn deploycheck all -B deployment.policy.json --service=service.definition.json --node-pol=node.policy.json
+	hzn deploycheck all -t device -B deployment.policy.json --service=service.definition.json --node-pol=node.policy.json
 
-.PHONY: default stop init run dev test clean build push attach browse publish publish-service publish-deployment-policy publish-pattern agent-run distclean deploy-check
+log:
+	hzn eventlog list
+
+.PHONY: default stop init run dev test clean build push attach browse publish publish-service publish-deployment-policy publish-pattern agent-run distclean deploy-check check log
