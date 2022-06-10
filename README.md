@@ -8,6 +8,8 @@ This is an Open Horizon configuration to deploy a vanilla instance of the open-s
 
 **Edge Node:** You will need an x86 computer running Linux or macOS, or a Raspberry Pi computer (arm64) running Raspberry Pi OS or Ubuntu to install and use Home Assistant deployed by Open Horizon.  You will need to install the Open Horizon agent software, anax, on the edge node and register it with a hub.
 
+**Optional utilities to install:**  With `brew` on macOS (you may need to install _that_ as well), `apt-get` on Ubuntu or Raspberry Pi OS, `yum` on Fedora, install `gcc`, `make`, `git`, `jq`, `curl`, `net-tools`.  Not all of those may exist on all platforms, and some may already be installed.  But reflecively installing those has proven helpful in having the right tools available when you need them.
+
 ## Installation
 
 Clone the `service-homeassistant` GitHub repo from a terminal prompt on the edge node and enter the folder where the artifacts were copied.
@@ -42,9 +44,9 @@ Check that the agent is in an unconfigured state, and that it can communicate wi
 
 ## Usage
 
-To manually run Home Assistant locally as a test, enter `make`.  This will open a browser window, but it may do so before Home Assistant is completely ready.  If you get a blank web page, wait about 10 seconds or so and reload the page.  When you are done, run `make stop` in the terminal to end the test.  Running `make attach` will connect you to a prompt running inside the container, and you can end that session by entering `exit`.
+To manually run Home Assistant locally as a test, enter `make`.  This will open a browser window, but it may do so before Home Assistant is completely ready.  If you get a blank web page, wait about 10 seconds or so and reload the page.  Running `make attach` will connect you to a prompt running inside the container, and you can end that session by entering `exit`.  When you are done, run `make stop` in the terminal to end the test.
 
-To create the service definition, publish it to the hub, and then form an agreement to download and run Home Assistant, enter `make publish`.  When installation is complete, you may open a browser pointing to Home Assistant by entering `make browse` or visiting [http://localhost:8123/](http://localhost:8123/) in a web browser.
+To create [the service definition](https://github.com/open-horizon/examples/blob/master/edge/services/helloworld/CreateService.md#build-publish-your-hw), publish it to the hub, and then form an agreement to download and run Home Assistant, enter `make publish`.  When installation is complete, you may open a browser pointing to Home Assistant by entering `make browse` or visiting [http://localhost:8123/](http://localhost:8123/) in a web browser.
 
 ## Advanced details
 
@@ -64,9 +66,10 @@ To create the service definition, publish it to the hub, and then form an agreem
 * `build` - N/A
 * `push` - N/A
 * `publish-service` - Publish the service definition file to the hub in your organization
-* `publish-deployment-policy` - Publish a deployment for the service to the hub in your org
-* `agent-run` - register your agent with the hub
-* `publish` - Publish the service, deployment, and then register your agent
+* `publish-service-policy` - Publish the [service policy](https://github.com/open-horizon/examples/blob/master/edge/services/helloworld/PolicyRegister.md#service-policy) file to the hub in your org
+* `publish-deployment-policy` - Publish a [deployment policy](https://github.com/open-horizon/examples/blob/master/edge/services/helloworld/PolicyRegister.md#deployment-policy) for the service to the hub in your org
+* `agent-run` - register your agent's [node policy}(https://github.com/open-horizon/examples/blob/master/edge/services/helloworld/PolicyRegister.md#node-policy) with the hub
+* `publish` - Publish the service def, service policy, deployment policy, and then register your agent
 * `agent-stop` - unregister your agent with the hub, halting all agreements and stopping containers
 * `deploy-check` - confirm that a registered agent is compatible with the service and deployment
 * `log` - check the agent event logs

@@ -1,6 +1,8 @@
 {
 	"org": "$HZN_ORG_ID",
 	"label": "$SERVICE_NAME for $ARCH",
+	"description": "A service to deploy Home Assistant with Open Horizon",
+	"documentation": "https://github.com/open-horizon-services/service-homeassistant/blob/main/README.md",
 	"url": "$SERVICE_NAME",
 	"version": "$SERVICE_VERSION",
 	"arch": "$ARCH",
