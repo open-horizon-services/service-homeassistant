@@ -29,26 +29,26 @@ OS := $(shell uname -s)
 default: init run browse
 
 check:
+	@echo "====================="
 	@echo "ENVIRONMENT VARIABLES"
 	@echo "====================="
-	@echo "DOCKER_IMAGE_BASE default: ghcr.io/home-assistant/home-assistant actual: ${DOCKER_IMAGE_BASE}"
-	@echo "DOCKER_IMAGE_NAME default: homeassistant actual: ${DOCKER_IMAGE_NAME}"
-	@echo "DOCKER_IMAGE_VERSION default: latest actual: ${DOCKER_IMAGE_VERSION}"
-	@echo "DOCKER_VOLUME_NAME default: homeassistant_config actual: ${DOCKER_VOLUME_NAME}"
-	@echo "DOCKERHUB_ID default: homeassistant actual: ${DOCKERHUB_ID}"
-	@echo "HZN_ORG_ID default: examples actual: ${HZN_ORG_ID}"
-	@echo "MY_TIME_ZONE default: America/New_York actual: ${MY_TIME_ZONE}"
-	@echo "DEPLOYMENT_POLICY_NAME default: deployment-policy-homeassistant actual: ${DEPLOYMENT_POLICY_NAME}"
-	@echo "NODE_POLICY_NAME default: node-policy-homeassistant actual: ${NODE_POLICY_NAME}"
-	@echo "SERVICE_NAME default: service-homeassistant actual: ${SERVICE_NAME}"
-	@echo "SERVICE_VERSION default: 0.0.1 actual: ${SERVICE_VERSION}"
-	@echo "ARCH default: amd64 actual ${ARCH}"
-	@echo "====================="
+	@echo "DOCKER_IMAGE_BASE      default: ghcr.io/home-assistant/home-assistant actual: ${DOCKER_IMAGE_BASE}"
+	@echo "DOCKER_IMAGE_NAME      default: homeassistant                         actual: ${DOCKER_IMAGE_NAME}"
+	@echo "DOCKER_IMAGE_VERSION   default: latest                                actual: ${DOCKER_IMAGE_VERSION}"
+	@echo "DOCKER_VOLUME_NAME     default: homeassistant_config                  actual: ${DOCKER_VOLUME_NAME}"
+	@echo "DOCKERHUB_ID           default: homeassistant                         actual: ${DOCKERHUB_ID}"
+	@echo "HZN_ORG_ID             default: examples                              actual: ${HZN_ORG_ID}"
+	@echo "MY_TIME_ZONE           default: America/New_York                      actual: ${MY_TIME_ZONE}"
+	@echo "DEPLOYMENT_POLICY_NAME default: deployment-policy-homeassistant       actual: ${DEPLOYMENT_POLICY_NAME}"
+	@echo "NODE_POLICY_NAME       default: node-policy-homeassistant             actual: ${NODE_POLICY_NAME}"
+	@echo "SERVICE_NAME           default: service-homeassistant                 actual: ${SERVICE_NAME}"
+	@echo "SERVICE_VERSION        default: 0.0.1                                 actual: ${SERVICE_VERSION}"
+	@echo "ARCH                   default: amd64                                 actual: ${ARCH}"
 	@echo ""
+	@echo "=================="
 	@echo "SERVICE DEFINITION"
 	@echo "=================="
 	@cat service.definition.json | envsubst
-	@echo "=================="
 	@echo ""
 
 stop:
@@ -97,7 +97,7 @@ build:
 push:
 	@echo "There is no Docker image push process since this container is provided by a third-party from official sources."
 
-publish: publish-service publish-service-policy publish-deployment-policy agent-run
+publish: publish-service publish-service-policy publish-deployment-policy agent-run browse
 
 # Pull, not push, Docker image since provided by third party
 publish-service:

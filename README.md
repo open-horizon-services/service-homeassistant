@@ -16,7 +16,7 @@ Clone the `service-homeassistant` GitHub repo from a terminal prompt on the edge
 
   NOTE: This assumes that `git` has been installed on the edge node.
 
-  ``` bash
+  ``` shell
   git clone https://github.com/open-horizon-services/service-homeassistant.git
   cd service-homeassistant
   ```
@@ -25,7 +25,7 @@ Run `make clean` to confirm that the "make" utility is installed and working.
 
 Confirm that you have the Open Horizon agent installed by using the CLI to check the version:
 
-  ``` bash
+  ``` shell
   hzn version
   ```
 
@@ -50,7 +50,21 @@ To create [the service definition](https://github.com/open-horizon/examples/blob
 
 ## Advanced details
 
-### Makefile targets
+### Debugging
+
+The Makefile includes several targets to assist you in inspecting what is happening to see if they match your expectations.  They include:
+
+`make log` to see both the event logs and the service logs.
+
+`make check` to see the values in your environment variables and how they compare to the default values.  It will also show the service definition file with those values filled in.
+
+`make deploy-check` to see if the properties and contstraints that you've configured match each other to potentially form an agreement.
+
+`make test` to see if the web server is responding.
+
+`make attach` to connect to the running container and open a shell inside it.
+
+### All Makefile targets
 
 * `default` - init run browse
 * `init` - optionally create the docker volume
@@ -73,4 +87,3 @@ To create [the service definition](https://github.com/open-horizon/examples/blob
 * `agent-stop` - unregister your agent with the hub, halting all agreements and stopping containers
 * `deploy-check` - confirm that a registered agent is compatible with the service and deployment
 * `log` - check the agent event logs
-
