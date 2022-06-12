@@ -57,7 +57,7 @@ curl -sSL https://github.com/open-horizon/anax/releases/latest/download/agent-in
 
 To manually run Home Assistant locally as a test, enter `make`.  This will open a browser window, but it may do so before Home Assistant is completely ready.  If you get a blank web page, wait about 10 seconds or so and reload the page.  Running `make attach` will connect you to a prompt running inside the container, and you can end that session by entering `exit`.  When you are done, run `make stop` in the terminal to end the test.
 
-To create [the service definition](https://github.com/open-horizon/examples/blob/master/edge/services/helloworld/CreateService.md#build-publish-your-hw), publish it to the hub, and then form an agreement to download and run Home Assistant, enter `make publish`.  When installation is complete, you may open a browser pointing to Home Assistant by entering `make browse` or visiting [http://localhost:8123/](http://localhost:8123/) in a web browser.
+To create [the service definition](https://github.com/open-horizon/examples/blob/master/edge/services/helloworld/CreateService.md#build-publish-your-hw), publish it to the hub, and then form an agreement to download and run Home Assistant, enter `make publish`.  When installation is complete and an agreement has been formed, exit the watch command with Control-C.  You may then open a browser pointing to Home Assistant by entering `make browse` or visiting [http://localhost:8123/](http://localhost:8123/) in a web browser.
 
 ## Advanced details
 
