@@ -15,8 +15,8 @@
     "properties": [
     ],
     "constraints": [ 
-         "purpose==automation",
-         "openhorizon.allowPrivileged==true"
+         "purpose == automation",
+         "openhorizon.allowPrivileged == true"
     ], 
     "userInput": [ 
       {            

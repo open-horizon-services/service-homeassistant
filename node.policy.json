@@ -3,15 +3,11 @@
 		{
 			"name": "openhorizon.allowPrivileged",
 			"value": true
+		},
+		{
+			"name": "purpose",
+			"value": "automation"
 		}
-    ],
-	"constraints": [],
-	"deployment": {
-		"properties": [
-			{
-				"name": "purpose",
-				"value": "automation"
-			}
-		]
-	}
+],
+	"constraints": []
 }  

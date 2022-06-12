@@ -58,7 +58,7 @@ init:
 	@docker volume create $(DOCKER_VOLUME_NAME)
 
 run: stop
-	docker run -d \
+	@docker run -d \
 		--name $(DOCKER_IMAGE_NAME) \
 		--privileged \
 		--restart=unless-stopped \
@@ -70,7 +70,7 @@ run: stop
 dev: run attach
 
 attach: 
-	docker exec -it \
+	@docker exec -it \
 		`docker ps -aqf "name=$(DOCKER_IMAGE_NAME)"` \
 		/bin/bash		
 
@@ -122,7 +122,6 @@ publish-deployment-policy:
 	@echo ""
 
 agent-run:
-#	@hzn register --policy=node.policy.json -s $(SERVICE_NAME) -t 240 --serviceorg $(HZN_ORG_ID)
 	@echo "================"
 	@echo "REGISTERING NODE"
 	@echo "================"
