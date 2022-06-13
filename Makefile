@@ -88,8 +88,7 @@ clean: stop
 	@docker rmi -f $(DOCKER_IMAGE_BASE):$(DOCKER_IMAGE_VERSION) >/dev/null 2>&1 || :
 	@docker volume rm $(DOCKER_VOLUME_NAME)
 
-distclean: clean
-	@echo "TBD: unpublish files, unregister node"
+distclean: agent-stop remove-deployment-policy remove-service-policy remove-service clean
 
 build:
 	@echo "There is no Docker image build process since this container is provided by a third-party from official sources."
@@ -107,6 +106,13 @@ publish-service:
 	@hzn exchange service publish -O -P --json-file=service.definition.json
 	@echo ""
 
+remove-service:
+	@echo "=================="
+	@echo "REMOVING SERVICE"
+	@echo "=================="
+	@hzn exchange service remove -f $(HZN_ORG_ID)/$(SERVICE_NAME)_$(SERVICE_VERSION)_$(ARCH)
+	@echo ""
+
 publish-service-policy:
 	@echo "========================="
 	@echo "PUBLISHING SERVICE POLICY"
@@ -114,11 +120,25 @@ publish-service-policy:
 	@hzn exchange service addpolicy -f service.policy.json $(HZN_ORG_ID)/$(SERVICE_NAME)_$(SERVICE_VERSION)_$(ARCH)
 	@echo ""
 
+remove-service-policy:
+	@echo "======================="
+	@echo "REMOVING SERVICE POLICY"
+	@echo "======================="
+	@hzn exchange service removepolicy -f $(HZN_ORG_ID)/$(SERVICE_NAME)_$(SERVICE_VERSION)_$(ARCH)
+	@echo ""
+
 publish-deployment-policy:
 	@echo "============================"
 	@echo "PUBLISHING DEPLOYMENT POLICY"
 	@echo "============================"
 	@hzn exchange deployment addpolicy -f deployment.policy.json $(HZN_ORG_ID)/policy-$(SERVICE_NAME)_$(SERVICE_VERSION)
+	@echo ""
+
+remove-deployment-policy:
+	@echo "=========================="
+	@echo "REMOVING DEPLOYMENT POLICY"
+	@echo "=========================="
+	@hzn exchange deployment removepolicy -f $(HZN_ORG_ID)/policy-$(SERVICE_NAME)_$(SERVICE_VERSION)
 	@echo ""
 
 agent-run:
@@ -129,7 +149,11 @@ agent-run:
 	@watch hzn agreement list
 
 agent-stop:
+	@echo "==================="
+	@echo "UN-REGISTERING NODE"
+	@echo "==================="
 	@hzn unregister -f
+	@echo ""
 
 deploy-check:
 	@hzn deploycheck all -t device -B deployment.policy.json --service=service.definition.json --service-pol=service.policy.json --node-pol=node.policy.json
@@ -145,4 +169,4 @@ log:
 	@echo "==========="
 	@hzn service log -f $(SERVICE_NAME)
 
-.PHONY: default stop init run dev test clean build push attach browse publish publish-service publish-service-policy publish-deployment-policy publish-pattern agent-run distclean deploy-check check log
+.PHONY: default stop init run dev test clean build push attach browse publish publish-service publish-service-policy publish-deployment-policy publish-pattern agent-run distclean deploy-check check log remove-deployment-policy remove-service-policy remove-service

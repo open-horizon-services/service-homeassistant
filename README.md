@@ -91,8 +91,11 @@ The Makefile includes several targets to assist you in inspecting what is happen
 * `build` - N/A
 * `push` - N/A
 * `publish-service` - Publish the service definition file to the hub in your organization
+* `remove-service` - Remove the service definition file from the hub in your organization
 * `publish-service-policy` - Publish the [service policy](https://github.com/open-horizon/examples/blob/master/edge/services/helloworld/PolicyRegister.md#service-policy) file to the hub in your org
+* `remove-service-policy` - Remove the service policy file from the hub in your org
 * `publish-deployment-policy` - Publish a [deployment policy](https://github.com/open-horizon/examples/blob/master/edge/services/helloworld/PolicyRegister.md#deployment-policy) for the service to the hub in your org
+* `remove-deployment-policy` - Remove a deployment policy for the service from the hub in your org
 * `agent-run` - register your agent's [node policy](https://github.com/open-horizon/examples/blob/master/edge/services/helloworld/PolicyRegister.md#node-policy) with the hub
 * `publish` - Publish the service def, service policy, deployment policy, and then register your agent
 * `agent-stop` - unregister your agent with the hub, halting all agreements and stopping containers
