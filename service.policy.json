@@ -1,0 +1,6 @@
+{
+    "properties": [],
+    "constraints": [
+        "openhorizon.allowPrivileged == true AND purpose == automation"
+    ]
+}
