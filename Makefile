@@ -60,7 +60,6 @@ init:
 run: stop
 	@docker run -d \
 		--name $(DOCKER_IMAGE_NAME) \
-		--privileged \
 		--restart=unless-stopped \
 		-e TZ=$(MY_TIME_ZONE) \
 		-v $(DOCKER_VOLUME_NAME):/config \
@@ -170,3 +169,4 @@ log:
 	@hzn service log -f $(SERVICE_NAME)
 
 .PHONY: default stop init run dev test clean build push attach browse publish publish-service publish-service-policy publish-deployment-policy publish-pattern agent-run distclean deploy-check check log remove-deployment-policy remove-service-policy remove-service
+

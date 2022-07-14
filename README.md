@@ -75,6 +75,7 @@ The Makefile includes several targets to assist you in inspecting what is happen
 
 `make attach` to connect to the running container and open a shell inside it.
 
+> **Note** The service-homeassistant container by default runs in un-privileged mode, but it may require privileged conditions in certain cases (For eg: to detect specific hardware, for more information please ref. https://github.com/home-assistant/home-assistant.io/issues/18014). In that case you can manually add "--privileged" flag in the Makefile under `docker-run` command.
 ### All Makefile targets
 
 * `default` - init run browse
