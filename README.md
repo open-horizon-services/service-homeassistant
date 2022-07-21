@@ -1,6 +1,6 @@
 # service-homeassistant
 
-This is an Open Horizon configuration to deploy a vanilla instance of the open-source [Home Assistant](https://www.home-assistant.io/getting-started) software.  The Home Assistant UI is designed to run in a web browser, so you will need to navigate to http://localhost:8123/ to use the software once it has been deployed.
+This is an Open Horizon configuration to deploy a vanilla instance of the open-source [Home Assistant](https://www.home-assistant.io/getting-started) software.  The Home Assistant UI is designed to run in a web browser, so you will need to navigate to <http://localhost:8123/> to use the software once it has been deployed.
 
 ## Prerequisites
 
@@ -42,7 +42,7 @@ Confirm that you have the Open Horizon agent installed by using the CLI to check
 
 Check that the agent is in an unconfigured state, and that it can communicate with a hub.  If you have the `jq` utility installed, run `hzn node list | jq '.configstate.state'` and check that the value returned is "unconfigured".  If not, running `make agent-stop` or `hzn unregister -f` will put the agent in an unconfigured state.  Run `hzn node list | jq '.configuration'` and check that the JSON returned shows values for the "exchange_version" property, as well as the "exchange_api" and "mms_api" properties showing URLs.  If those do not, then the agent is not configured to communicate with a hub.  If you do not have `jq` installed, run `hzn node list` and eyeball the sections mentioned above.
 
-NOTE: If "exchange_version" is showing an empty value, you will not be able to publish and run the service.  The only fix found to this condition thus far is to re-install the agent using these instructions: 
+NOTE: If "exchange_version" is showing an empty value, you will not be able to publish and run the service.  The only fix found to this condition thus far is to re-install the agent using these instructions:
 
 ``` shell
 hzn unregister -f # to ensure that the node is unregistered
@@ -69,13 +69,14 @@ The Makefile includes several targets to assist you in inspecting what is happen
 
 `make check` to see the values in your environment variables and how they compare to the default values.  It will also show the service definition file with those values filled in.
 
-`make deploy-check` to see if the properties and contstraints that you've configured match each other to potentially form an agreement.
+`make deploy-check` to see if the properties and constraints that you've configured match each other to potentially form an agreement.
 
 `make test` to see if the web server is responding.
 
 `make attach` to connect to the running container and open a shell inside it.
 
-> **Note** The service-homeassistant container by default runs in un-privileged mode, but it may require privileged conditions in certain cases (For eg: to detect specific hardware, for more information please ref. https://github.com/home-assistant/home-assistant.io/issues/18014). In that case you can manually add "--privileged" flag in the Makefile under `docker-run` command.
+> **Note** The service-homeassistant container by default runs in un-privileged mode, but it may require privileged conditions in certain cases (For eg: to detect specific hardware, for more information please ref. <https://github.com/home-assistant/home-assistant.io/issues/18014>). In that case you can manually add "--privileged" flag in the Makefile under `docker-run` command.
+
 ### All Makefile targets
 
 * `default` - init run browse
