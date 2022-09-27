@@ -6,7 +6,7 @@ export DOCKER_IMAGE_VERSION ?= latest
 export DOCKER_VOLUME_NAME ?= homeassistant_config
 
 # DockerHub ID of the third party providing the image (usually yours if building and pushing)
-export DOCKERHUB_ID ?= homeassistant
+export DOCKER_HUB_ID ?= homeassistant
 
 # The Open Horizon organization ID namespace where you will be publishing the service definition file
 export HZN_ORG_ID ?= examples
@@ -36,7 +36,7 @@ check:
 	@echo "DOCKER_IMAGE_NAME      default: homeassistant                         actual: ${DOCKER_IMAGE_NAME}"
 	@echo "DOCKER_IMAGE_VERSION   default: latest                                actual: ${DOCKER_IMAGE_VERSION}"
 	@echo "DOCKER_VOLUME_NAME     default: homeassistant_config                  actual: ${DOCKER_VOLUME_NAME}"
-	@echo "DOCKERHUB_ID           default: homeassistant                         actual: ${DOCKERHUB_ID}"
+	@echo "DOCKER_HUB_ID           default: homeassistant                         actual: ${DOCKER_HUB_ID}"
 	@echo "HZN_ORG_ID             default: examples                              actual: ${HZN_ORG_ID}"
 	@echo "MY_TIME_ZONE           default: America/New_York                      actual: ${MY_TIME_ZONE}"
 	@echo "DEPLOYMENT_POLICY_NAME default: deployment-policy-homeassistant       actual: ${DEPLOYMENT_POLICY_NAME}"
