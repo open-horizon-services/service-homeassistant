@@ -1,4 +1,5 @@
 # service-homeassistant
+![](https://img.shields.io/github/license/open-horizon-services/service-homeassistant) ![](https://img.shields.io/badge/x86-yes-green)  ![](https://img.shields.io/badge/arm64-yes-green)
 
 This is an Open Horizon configuration to deploy a vanilla instance of the open-source [Home Assistant](https://www.home-assistant.io/getting-started) software.  The Home Assistant UI is designed to run in a web browser, so you will need to navigate to <http://localhost:8123/> to use the software once it has been deployed.
 
